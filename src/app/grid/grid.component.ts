@@ -2,6 +2,7 @@ import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@
 import { GameConfig } from '../model/game-config';
 import { Point } from '../model/point';
 import { Cell } from '../model/cell';
+import { distance, bestScorePoint, surroundingPoints } from './logic/grid-logic';
 
 @Component({
   selector: 'app-grid',
@@ -28,57 +29,26 @@ export class GridComponent implements OnInit {
     this.game = new Array(this.gameConfig.gridSize.x).fill(null);
     this.game.forEach((_, idx) => this.game[idx] = new Array(this.gameConfig.gridSize.y));
 
-    const startCell = new Cell(0, this.distance(this.gameConfig.start, this.gameConfig.target));
+    const startCell = new Cell(0, distance(this.gameConfig.start, this.gameConfig.target));
     this.game[this.gameConfig.start.x][this.gameConfig.start.y] = startCell;
 
     this.changeDetector.markForCheck();
   }
 
   next() {
-    const pointsToEvaluate = this.bestScoreCells();
-    pointsToEvaluate.forEach(point => this.evaluateSurrounding(point));
+    this.evaluateSurrounding(bestScorePoint(this.game));
     this.changeDetector.markForCheck();
   }
 
 
   evaluateSurrounding(point: Point) {
-    for (let x = point.x - 1; x <= point.x + 1; x++) {
-      for (let y = point.y - 1; y <= point.y + 1; y++) {
-        if (x >= 0 && x < this.gameConfig.gridSize.x && y >= 0 && y < this.gameConfig.gridSize.y) {
-          const sibling = { x: x, y: y };
-          const fromStart = this.distance(this.gameConfig.start, sibling);
-          const toTarget = this.distance(this.gameConfig.target, sibling);
-          this.game[x][y] = new Cell(fromStart, toTarget);
-        }
-      }
-    }
-  }
-
-  bestScoreCells(): Point[] {
-    const score = Number.MAX_VALUE;
-    let points: Point[] = [];
-
-    this.game.forEach((_, x) => {
-      this.game[x].forEach((_, y) => {
-        const currentScore = this.game[x][y].score;
-        if (currentScore <= score) {
-          const currentPoint = { x: x, y: y };
-          if (currentScore === score) {
-            points.push(currentPoint);
-          } else {
-            points = [currentPoint];
-          }
-        }
+    surroundingPoints(point, this.gameConfig.gridSize)
+      .forEach(neighbor => {
+        const fromStart = distance(this.gameConfig.start, neighbor);
+        const toTarget = distance(this.gameConfig.target, neighbor);
+        const { x, y } = neighbor;
+        this.game[x][y] = new Cell(fromStart, toTarget);
       })
-    })
-
-    return points;
-  }
-
-  distance(start: Point, target: Point): number {
-    const deltaX = Math.abs(start.x - target.x);
-    const deltaY = Math.abs(start.y - target.y);
-    return deltaX + deltaY;
   }
 
 }

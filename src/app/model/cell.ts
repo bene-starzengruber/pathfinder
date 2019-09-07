@@ -6,4 +6,15 @@ export class Cell {
     return this.fromStart + this.toEnd;
   }
 
+  betterScoreThan(other: Cell) {
+    if (!other) {
+      return true;
+    }
+
+    if (this.score === other.score) {
+      return this.toEnd < other.toEnd;
+    }
+
+    return this.score < other.score;
+  }
 }
