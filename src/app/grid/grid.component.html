@@ -1,0 +1,10 @@
+<button (click)="startGame()">start</button>
+<button (click)="next()">next</button>
+
+
+<div *ngFor="let column of game; let x = index" class="grid_row">
+  <div *ngFor="let row of column; let y = index" class="grid_cell">
+    {{ game[x][y] && game[x][y].score || 0 }}
+  </div>
+  <br>
+</div>
