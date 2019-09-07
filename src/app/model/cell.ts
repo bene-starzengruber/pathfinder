@@ -1,6 +1,6 @@
 export class Cell {
 
-  constructor(public fromStart: number, public toEnd: number) { }
+  constructor(public fromStart: number, public toEnd: number, public isPath: boolean = false) { }
 
   get score() {
     return this.fromStart + this.toEnd;

@@ -13,9 +13,9 @@ import { distance, bestScorePoint, surroundingPoints } from './logic/grid-logic'
 export class GridComponent implements OnInit {
 
   gameConfig: GameConfig = {
-    gridSize: { x: 10, y: 10 },
+    gridSize: { x: 25, y: 20 },
     start: { x: 0, y: 0 },
-    target: { x: 9, y: 9 },
+    target: { x: 18, y: 13 },
   };
 
   game: Cell[][];
@@ -23,11 +23,12 @@ export class GridComponent implements OnInit {
   constructor(private changeDetector: ChangeDetectorRef) { }
 
   ngOnInit() {
+    this.initializeGame();
   }
 
   initializeGame() {
-    this.game = new Array(this.gameConfig.gridSize.x).fill(null);
-    this.game.forEach((_, idx) => this.game[idx] = new Array(this.gameConfig.gridSize.y));
+    this.game = new Array(this.gameConfig.gridSize.y).fill(null);
+    this.game.forEach((_, idx) => this.game[idx] = new Array(this.gameConfig.gridSize.x));
 
     const startCell = new Cell(0, distance(this.gameConfig.start, this.gameConfig.target));
     this.game[this.gameConfig.start.x][this.gameConfig.start.y] = startCell;
@@ -38,6 +39,9 @@ export class GridComponent implements OnInit {
   next() {
     this.evaluateSurrounding(bestScorePoint(this.game));
 
+
+    const bestScoring = bestScorePoint(this.game);
+    this.game[bestScoring.x][bestScoring.y].isPath = true;
 
     const foundTarget = pointsEqual(bestScorePoint(this.game), this.gameConfig.target);
     if (foundTarget) {
@@ -50,11 +54,21 @@ export class GridComponent implements OnInit {
 
   evaluateSurrounding(point: Point) {
     surroundingPoints(point, this.gameConfig.gridSize)
-      .forEach(neighbor => {
-        const fromStart = distance(this.gameConfig.start, neighbor);
-        const toTarget = distance(this.gameConfig.target, neighbor);
-        this.game[neighbor.x][neighbor.y] = new Cell(fromStart, toTarget);
-      })
+      .forEach(neighbor => this.updateCell(neighbor));
+  }
+
+  private updateCell(point: Point) {
+    const fromStart = distance(this.gameConfig.start, point);
+    const toTarget = distance(this.gameConfig.target, point);
+
+    const { x, y } = point;
+    const cell = this.game[x][y];
+    if (cell) {
+      cell.fromStart = fromStart;
+      cell.toEnd = toTarget;
+    } else {
+      this.game[x][y] = new Cell(fromStart, toTarget);
+    }
   }
 
 }
