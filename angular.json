@@ -83,7 +83,12 @@
         },
         "test": {
           "builder": "@angular-builders/jest:run",
-          "options": {}
+          "options": {
+            "collectCoverageFrom": [
+              "src/app/**/*.ts",
+              "!**/*.module.ts"
+            ]
+          }
         },
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
