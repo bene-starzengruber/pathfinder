@@ -1,10 +1,32 @@
+:host {
+  height        : 100%;
+  display       : flex;
+  flex-direction: column;
+}
+
 .grid {
   &_row {
-    display: flex
+    display: flex;
+    flex   : 1 0 auto;
   }
 
   &_cell {
-    width: 1.5rem;
-    border: 1px solid;
+    display        : flex;
+    justify-content: center;
+    align-items    : center;
+    flex           : 1 0 auto;
+    width          : 1.5rem;
+    font-size      : 30px;
+    background     : #EEEEEE;
+  }
+
+  &_start-cell {
+    color     : white;
+    background: #00BCD4;
+  }
+
+  &_target-cell {
+    color     : white;
+    background: #8BC34A;
   }
 }

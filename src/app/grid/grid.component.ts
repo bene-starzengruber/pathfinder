@@ -1,6 +1,6 @@
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { GameConfig } from '../model/game-config';
-import { Point } from '../model/point';
+import { Point, pointsEqual } from '../model/point';
 import { Cell } from '../model/cell';
 import { distance, bestScorePoint, surroundingPoints } from './logic/grid-logic';
 
@@ -25,7 +25,7 @@ export class GridComponent implements OnInit {
   ngOnInit() {
   }
 
-  startGame() {
+  initializeGame() {
     this.game = new Array(this.gameConfig.gridSize.x).fill(null);
     this.game.forEach((_, idx) => this.game[idx] = new Array(this.gameConfig.gridSize.y));
 
@@ -37,6 +37,13 @@ export class GridComponent implements OnInit {
 
   next() {
     this.evaluateSurrounding(bestScorePoint(this.game));
+
+
+    const foundTarget = pointsEqual(bestScorePoint(this.game), this.gameConfig.target);
+    if (foundTarget) {
+      this.initializeGame();
+    }
+
     this.changeDetector.markForCheck();
   }
 
@@ -46,8 +53,7 @@ export class GridComponent implements OnInit {
       .forEach(neighbor => {
         const fromStart = distance(this.gameConfig.start, neighbor);
         const toTarget = distance(this.gameConfig.target, neighbor);
-        const { x, y } = neighbor;
-        this.game[x][y] = new Cell(fromStart, toTarget);
+        this.game[neighbor.x][neighbor.y] = new Cell(fromStart, toTarget);
       })
   }
 
