@@ -1,5 +1,5 @@
 import { distance, bestScorePoint, surroundingPoints } from './grid-logic';
-import { Cell } from 'src/app/model/cell';
+import { Cell, CellType } from 'src/app/model/cell';
 import { Point } from 'src/app/model/point';
 
 describe('GridLogic', () => {
@@ -32,9 +32,9 @@ describe('GridLogic', () => {
 
   describe('bestScorePoint', () => {
 
-    const best = new Cell(10, 10);
-    const bestButTargetDistance = new Cell(0, 20);
-    const worst = new Cell(20, 10);
+    const best = new Cell(10, 10, CellType.EVALUATED);
+    const bestButTargetDistance = new Cell(0, 20, CellType.EVALUATED);
+    const worst = new Cell(20, 10, CellType.EVALUATED);
 
 
     it('single best score', () => {
@@ -62,6 +62,17 @@ describe('GridLogic', () => {
       ];
 
       expect(bestScorePoint(game)).toEqual({ x: 1, y: 0 });
+    })
+
+    it('ignores excluded cells', () => {
+      const bestPathCell = new Cell(5, 5, CellType.PATH);
+
+      const game = [
+        [worst, best],
+        [bestPathCell, worst]
+      ];
+
+      expect(bestScorePoint(game, cell => cell.type === CellType.PATH)).toEqual({ x: 0, y: 1 });
     })
 
   });

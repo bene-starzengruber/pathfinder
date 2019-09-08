@@ -22,14 +22,15 @@ export function distance(point1: Point, point2: Point): number {
  * If the score is equal between cells, the cell with the smaller distance to the target is chosen.
  * If there are multiple cells with the exact same score, the first one is chosen
  */
-export function bestScorePoint(cells: Cell[][]): Point {
+export function bestScorePoint(cells: Cell[][], excludeFn: (cell: Cell) => boolean = () => false): Point {
   let bestCell = null;
   let bestCellPoint: Point;
 
   cells.forEach((_, x) => {
     cells[x].forEach((_, y) => {
       const cell = cells[x][y];
-      if (cell && cell.betterScoreThan(bestCell)) {
+
+      if (cell && cell.betterScoreThan(bestCell) && !excludeFn(cell)) {
         bestCell = cell;
         bestCellPoint = { x: x, y: y }
       }

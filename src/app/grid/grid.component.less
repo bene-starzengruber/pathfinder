@@ -13,7 +13,7 @@
 
   &_row {
     display       : flex;
-    flex          : 1 0 auto;
+    flex          : 1 0 0;
     flex-direction: column;
   }
 
@@ -21,7 +21,7 @@
     display        : flex;
     justify-content: center;
     align-items    : center;
-    flex           : 1 0 auto;
+    flex           : 1 0 0;
     font-size      : 30px;
     background     : #EEEEEE;
     border         : 1px solid #E8E8E8;
@@ -32,6 +32,11 @@
     background: #00838F;
   }
 
+  &_evaluated-cell&_obstacle {
+    color     : white;
+    background: #212121;
+  }
+
   &_evaluated-cell {
     color     : white;
     background: #B2EBF2;
@@ -40,6 +45,11 @@
   &_path-cell {
     color     : white;
     background: #00BCD4;
+  }
+
+  &_final-path-cell {
+    color     : white;
+    background: #F44336;
   }
 
   &_target-cell {

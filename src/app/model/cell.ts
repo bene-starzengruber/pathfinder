@@ -1,6 +1,10 @@
+export enum CellType {
+  START, PATH, OBSTACLE, EVALUATED, FINAL_PATH
+}
+
 export class Cell {
 
-  constructor(public fromStart: number, public toEnd: number, public isPath: boolean = false) { }
+  constructor(public fromStart: number, public toEnd: number, public type: CellType, public previousCell: Cell = null) { }
 
   get score() {
     return this.fromStart + this.toEnd;
