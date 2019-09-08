@@ -1,13 +1,14 @@
 <button (click)="initializeGame()">start</button>
 <button (click)="next()">next</button>
 
+<div class="grid_container">
 
-<div *ngFor="let column of game; let x = index" class="grid_row">
-  <div *ngFor="let row of column; let y = index" class="grid_cell"
-    [class.grid_start-cell]="gameConfig.start.x === x && gameConfig.start.y === y"
-    [class.grid_path-cell]="game[x][y]?.isPath" [class.grid_evaluated-cell]="!!game[x][y]"
-    [class.grid_target-cell]="gameConfig.target.x === x && gameConfig.target.y === y">
-
+  <div *ngFor="let row of game; let x = index" class="grid_row">
+    <div *ngFor="let column of row; let y = index" class="grid_cell"
+      [class.grid_start-cell]="gameConfig.start.x === x && gameConfig.start.y === y"
+      [class.grid_path-cell]="game[x][y]?.isPath" [class.grid_evaluated-cell]="!!game[x][y]"
+      [class.grid_target-cell]="gameConfig.target.x === x && gameConfig.target.y === y">
+    </div>
   </div>
-  <br>
+
 </div>

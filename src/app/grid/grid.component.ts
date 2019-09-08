@@ -13,9 +13,9 @@ import { distance, bestScorePoint, surroundingPoints } from './logic/grid-logic'
 export class GridComponent implements OnInit {
 
   gameConfig: GameConfig = {
-    gridSize: { x: 25, y: 20 },
+    gridSize: { x: 3, y: 4 },
     start: { x: 0, y: 0 },
-    target: { x: 18, y: 13 },
+    target: { x: 2, y: 2 },
   };
 
   game: Cell[][];
@@ -27,8 +27,8 @@ export class GridComponent implements OnInit {
   }
 
   initializeGame() {
-    this.game = new Array(this.gameConfig.gridSize.y).fill(null);
-    this.game.forEach((_, idx) => this.game[idx] = new Array(this.gameConfig.gridSize.x));
+    this.game = new Array(this.gameConfig.gridSize.x).fill(null);
+    this.game.forEach((_, idx) => this.game[idx] = new Array(this.gameConfig.gridSize.y).fill(null));
 
     const startCell = new Cell(0, distance(this.gameConfig.start, this.gameConfig.target));
     this.game[this.gameConfig.start.x][this.gameConfig.start.y] = startCell;

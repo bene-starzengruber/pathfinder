@@ -5,9 +5,16 @@
 }
 
 .grid {
-  &_row {
+
+  &_container {
     display: flex;
     flex   : 1 0 auto;
+  }
+
+  &_row {
+    display       : flex;
+    flex          : 1 0 auto;
+    flex-direction: column;
   }
 
   &_cell {
@@ -15,7 +22,6 @@
     justify-content: center;
     align-items    : center;
     flex           : 1 0 auto;
-    width          : 1.5rem;
     font-size      : 30px;
     background     : #EEEEEE;
     border         : 1px solid #E8E8E8;
