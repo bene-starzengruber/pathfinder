@@ -4,6 +4,6 @@
 
 Short fun project to implement a simple path-finding-algorithm with a UI
 
-[Deployed Demo](pathfinder-2ef0e.web.app)
+[Deployed Demo](https://pathfinder-2ef0e.web.app)
 
 Created with [Angular CLI](https://github.com/angular/angular-cli) 8.3.2.
