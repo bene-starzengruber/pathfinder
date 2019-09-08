@@ -1,19 +1,19 @@
-import { Cell } from './cell';
+import { Cell, CellType } from './cell';
 import { pointsEqual } from './point';
 
 describe('Cell', () => {
 
   it('calculates score', () => {
-    expect(new Cell(0, 10).score).toBe(10);
-    expect(new Cell(10, 0).score).toBe(10);
-    expect(new Cell(10, 10).score).toBe(20);
+    expect(new Cell(0, 10, CellType.EVALUATED).score).toBe(10);
+    expect(new Cell(10, 0, CellType.EVALUATED).score).toBe(10);
+    expect(new Cell(10, 10, CellType.EVALUATED).score).toBe(20);
   })
 
   it('compares score', () => {
-    const cell = new Cell(10, 10);
-    const lessScore = new Cell(20, 10);
-    const same = new Cell(10, 10);
-    const diffTargetDistance = new Cell(0, 20);
+    const cell = new Cell(10, 10, CellType.EVALUATED);
+    const lessScore = new Cell(20, 10, CellType.EVALUATED);
+    const same = new Cell(10, 10, CellType.EVALUATED);
+    const diffTargetDistance = new Cell(0, 20, CellType.EVALUATED);
 
     expect(cell.betterScoreThan(undefined)).toBe(true);
     expect(cell.betterScoreThan(lessScore)).toBe(true);
